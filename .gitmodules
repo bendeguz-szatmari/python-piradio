@@ -1,3 +1,3 @@
-[submodule "addons/python-sqlite-wrapper"]
-	path = addons/python-sqlite-wrapper
-	url = git@github.com:bendeguz-szatmari/python-sqlite-wrapper
+[submodule "addons/python_sqlite_wrapper"]
+	path = addons/python_sqlite_wrapper
+	url = git@github.com:bendeguz-szatmari/python_sqlite_wrapper.git

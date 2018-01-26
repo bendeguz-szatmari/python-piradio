@@ -1,0 +1,3 @@
+[submodule "python_sqlite_wrapper"]
+	path = python_sqlite_wrapper
+	url = git@github.com:bendeguz-szatmari/python_sqlite_wrapper.git

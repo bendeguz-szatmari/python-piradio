@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Radio stream control website</h2>
+<form method="post">
+    <input type="button" id="play" value="Play">
+    <input type="submit" id="prev" value="Previous">
+    <input type="submit" id="next" value="Next">
+</form>
+<form action="" method="post">
+    <input type="text" name="name" value="Radio">
+    <input type="text" name="url" value="URL">
+    <input type="submit" name="submit" value="Add URL">
+</form>
+<script>
+    $("#play").click(function(){
+        if ($(this).val() == "Play") {
+            $(this).val("Stop")
+        } else {
+            $(this).val("Play")
+        }
+        var data = {sumbit:'Play'};
+        $.ajax({
+            url: $SCRIPT_ROOT + '/control',
+            data: JSON.stringify(data),
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    })
+    $("#submit").submit(function(){
+        
+    })
+</script>
+{% endblock %}

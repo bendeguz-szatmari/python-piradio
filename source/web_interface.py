@@ -2,13 +2,13 @@ from stream_manager import StreamManager
 
 sm = StreamManager()
 
-from flask import Flask, request
+from flask import Flask, request, render_template, jsonify
 app = Flask(__name__)
 header = '''
 <!doctype html>
 '''
 control_buttons = '''    
-    <form action="/control" method="post">
+    <form action="/" method="post">
         <input type="submit" name="submit" value="Play">
         <input type="submit" name="submit" value="Previous">
         <input type="submit" name="submit" value="Next">
@@ -30,12 +30,13 @@ def return_string(act_radio=''):
     playing = '''
     Current radio: ''' + current_radio + '''
     '''
-    return header + playing + control_buttons + add_url
+    #return header + playing + control_buttons + add_url
+    return "<h1 style='color:blue'>Hello There!</h1>"
 
 
 @app.route('/')
 def main_page():
-    return return_string(sm.get_current_radio())
+    return render_template('index.html')
 
 @app.route('/control', methods=['GET', 'POST'])
 def radio_control():
@@ -62,7 +63,7 @@ def radio_control():
             pass # unknown
     elif request.method == 'GET':
         print('get')
-    return return_string(sm.get_current_radio())
+    return str(request.form)
 
 @app.route('/add', methods=['GET', 'POST'])
 def radio_add():
@@ -74,4 +75,4 @@ def radio_add():
     return return_string(sm.get_current_radio())
 
 if __name__ == '__main__':
-   app.run(host="0.0.0.0")
+   app.run()

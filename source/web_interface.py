@@ -38,32 +38,38 @@ def return_string(act_radio=''):
 def main_page():
     return render_template('index.html')
 
-@app.route('/control', methods=['GET', 'POST'])
+@app.route('/control', methods=['POST'])
 def radio_control():
     if request.method == 'POST':
         print('Post')
-        if request.form['submit'] == 'Play':
+        print(request)
+        print(request.get_json())
+        data = request.get_json()
+        if data['submit'] == 'Play':
             print('play')
             sm.play_stream()
-        elif request.form['submit'] == 'Stop':
+            print(sm.get_current_radio())
+            print(sm.get_current_url())
+            print(sm.check_stream_online(sm.get_current_url()))
+        elif data['submit'] == 'Stop':
             print('stop')
             sm.stop_stream()
-        if request.form['submit'] == 'Previous':
+        if data['submit'] == 'Previous':
             print('previous')
+            sm.stop_stream()
             sm.select_stream(False)
-            sm.stop_stream()
             sm.play_stream()
-        elif request.form['submit'] == 'Next':
+        elif data['submit'] == 'Next':
             print('next')
-            sm.select_stream()
             sm.stop_stream()
+            sm.select_stream()
             sm.play_stream()
         else:
             print("unknown button pressed")
             pass # unknown
     elif request.method == 'GET':
         print('get')
-    return str(request.form)
+    return jsonify(data)
 
 @app.route('/add', methods=['GET', 'POST'])
 def radio_add():

@@ -31,6 +31,7 @@ class StreamManager:
         self.__player=self.__instance.media_player_new()
         #Used if url is a playlist
         self.__list_player=self.__instance.media_list_player_new()
+        self.thread = threading.Thread()
 
     def read_radios(self):
         with open(StreamManager.radio_csv, newline='') as csvfile:
@@ -62,6 +63,10 @@ class StreamManager:
         if self.check_stream_online(self.__current_stream.url) == True:
             ext = (self.__current_stream.url.rpartition(".")[2])[:3]
             result = StreamManager.playlists.__contains__(ext)
+            if self.thread.is_alive() == True:
+                print("thread is running")
+                self.stop_stream()
+                #self.thread._stop()
             self.thread = threading.Thread(target=self.start_stream, args=[result])
             #self.start_stream(result)
             self.thread.start()
@@ -104,6 +109,7 @@ class StreamManager:
         else:
             self.__player.stop()
         self.__list = False
+        self.thread.join()
 
     def get_current_radio(self):
         return self.__current_stream.name

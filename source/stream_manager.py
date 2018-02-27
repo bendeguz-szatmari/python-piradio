@@ -66,9 +66,7 @@ class StreamManager:
             if self.thread.is_alive() == True:
                 print("thread is running")
                 self.stop_stream()
-                #self.thread._stop()
             self.thread = threading.Thread(target=self.start_stream, args=[result])
-            #self.start_stream(result)
             self.thread.start()
         else:
             print ("Stream offline:" +self.__current_stream.name)
@@ -76,7 +74,6 @@ class StreamManager:
     def start_stream(self,List=False):
         if List == True:
             self.__list = True
-            print(self.__current_stream.url)
             self.__list_media=self.__instance.media_list_new([self.__current_stream.url])
             self.__list_player.set_media_list(self.__list_media)
             self.__list_player.play()
@@ -105,9 +102,17 @@ class StreamManager:
         StreamManager.play = False
         self.thread.do_run = False
         if self.__list == True:
+            print('stopping list media')
             self.__list_player.stop()
+            while self.__list_player.is_playing() != 0:
+                sleep(1)
+            self.__list_media.release()
         else:
+            print('stopping media')
             self.__player.stop()
+            while self.__player.is_playing() != 0:
+                sleep(1)
+            self.__media.release()
         self.__list = False
         self.thread.join()
 
@@ -116,6 +121,9 @@ class StreamManager:
 
     def get_current_url(self):
         return self.__current_stream.url
+    
+    def get_status(self):
+        return StreamManager.play
 
 if __name__ == "__main__":
     sm = StreamManager()

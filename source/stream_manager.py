@@ -3,6 +3,7 @@ from time import sleep
 import requests
 from collections import namedtuple
 import os, csv, threading
+from subprocess import Popen, PIPE
 
 class StreamManager:
     """
@@ -124,6 +125,20 @@ class StreamManager:
     
     def get_status(self):
         return StreamManager.play
+
+    def modify_volume(self, value):
+        if value < 0:
+            amount = str(abs(value))+'%-'
+        else:
+            amount = str(value)+'%+'
+        ##  run 'amixer' as a subprocess, then pipe the output
+        card = Popen(['amixer', 'sset', 'Master', amount], stdout=PIPE)
+
+        out = card.communicate()[0]  ##  we only need the first element returned
+        vol = str(out).split('[')[1].split(']')[0]
+        print(vol)
+        return vol
+
 
 if __name__ == "__main__":
     sm = StreamManager()

@@ -33,6 +33,12 @@ def radio_control():
             sm.stop_stream()
             sm.select_stream()
             sm.play_stream()
+        elif data['submit'] == 'Increase':
+            print('increase volume')
+            sm.modify_volume(10)
+        elif data['submit'] == 'Decrease':
+            print('decrease volume')
+            sm.modify_volume(-10)
         else:
             print("unknown button pressed")
             pass # unknown

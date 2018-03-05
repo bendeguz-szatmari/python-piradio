@@ -12,41 +12,50 @@ def main_page():
 
 @app.route('/control', methods=['POST'])
 def radio_control():
+    ret = {}
     if request.method == 'POST':
         data = request.get_json()
         if data['submit'] == 'Play':
             print('play')
             sm.play_stream()
             print(sm.get_current_radio())
-            print(sm.get_current_url())
-            print(sm.check_stream_online(sm.get_current_url()))
+            ret['response'] = sm.get_current_radio()
         elif data['submit'] == 'Stop':
             print('stop')
             sm.stop_stream()
+            ret['response'] = sm.get_current_radio()
         if data['submit'] == 'Previous':
             print('previous')
             sm.stop_stream()
             sm.select_stream(False)
             sm.play_stream()
+            ret['response'] = sm.get_current_radio()
         elif data['submit'] == 'Next':
             print('next')
             sm.stop_stream()
             sm.select_stream()
             sm.play_stream()
+            ret['response'] = sm.get_current_radio()
         elif data['submit'] == 'Increase':
             print('increase volume')
-            sm.modify_volume(10)
+            ret['response'] = sm.modify_volume(10)
         elif data['submit'] == 'Decrease':
             print('decrease volume')
-            sm.modify_volume(-10)
+            ret['response'] = sm.modify_volume(-10)
+        elif data['submit'] == 'Status':
+            print('get status')
+            ret['response'] = str(sm.get_status())
+            ret['response2'] = str(sm.get_current_radio())
+        elif data['submit'] == 'Volume':
+            print('get volume')
+            ret['response'] = str(sm.get_volume())
         else:
             print("unknown button pressed")
             pass # unknown
     elif request.method == 'GET':
         print('get')
-        dict = {}
-        dict['status'] = str(sm.get_status)
-        data = json.dumps(dict)
+        ret['response'] = str(sm.get_status())
+    data = json.dumps(ret)
     return jsonify(data)
 
 @app.route('/add', methods=['GET', 'POST'])

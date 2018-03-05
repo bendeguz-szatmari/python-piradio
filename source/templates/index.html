@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 <h2>Radio stream control website</h2>
+<h3 id="current_radio">On air:</h3>
 <form method="post">
     <input type="button" id="play" value="Play">
     <input type="button" id="prev" value="Previous">
@@ -13,23 +14,76 @@
     <input type="text" name="url" value="URL">
     <input type="button" name="submit" value="Add URL">
 </form>
+<h3 id="volume">Volume: 50%<h3>
 <script>
+    $(document).ready(function(){
+        var data = {submit:"Status"}
+        $.ajax({
+          url: $SCRIPT_ROOT + "/control",
+          data: JSON.stringify(data),
+          type: "POST",
+          contentType:"application/json; charset=utf-8",
+          success: function(response) {
+              console.log($.parseJSON(response)["response"])
+              var resp = $.parseJSON(response)["response"]
+              if (resp == "False"){
+                  $("#play").val("Play")
+              } else {
+                  $("#play").val("Stop")
+              }
+              console.log($.parseJSON(response)["response2"])
+              $("#current_radio").text("On air: "+ $.parseJSON(response)["response2"])
+          },
+          error: function(error) {
+              console.log(error);
+          }
+        });
+        data = {submit:"Volume"}
+        $.ajax({
+          url: $SCRIPT_ROOT + "/control",
+          data: JSON.stringify(data),
+          type: "POST",
+          contentType:"application/json; charset=utf-8",
+          success: function(response) {
+              console.log($.parseJSON(response)["response"])
+              $("#volume").text("Volume: " + $.parseJSON(response)["response"])
+          },
+          error: function(error) {
+              console.log(error);
+          }
+        });
+        data = {submit:"Volume"}
+        $.ajax({
+          url: $SCRIPT_ROOT + "/control",
+          data: JSON.stringify(data),
+          type: "POST",
+          contentType:"application/json; charset=utf-8",
+          success: function(response) {
+              console.log($.parseJSON(response)["response"])
+              $("#volume").text("Volume: " + $.parseJSON(response)["response"])
+          },
+          error: function(error) {
+              console.log(error);
+          }
+        });
+    });
     $("#play").click(function(){
 	console.log("play clicked");
         if ($(this).val() == "Play") {
             $(this).val("Stop")
-            var data = {submit:'Play'};
+            var data = {submit:"Play"};
         } else {
             $(this).val("Play")
-            var data = {submit:'Stop'};
+            var data = {submit:"Stop"};
         }
         $.ajax({
-            url: $SCRIPT_ROOT + '/control',
+            url: $SCRIPT_ROOT + "/control",
             data: JSON.stringify(data),
-            type: 'POST',
-		contentType:"application/json; charset=utf-8",
+            type: "POST",
+	          contentType:"application/json; charset=utf-8",
             success: function(response) {
-		        console.log(response.submit)
+		            console.log($.parseJSON(response)["response"])
+                $("#current_radio").text("On air: "+ $.parseJSON(response)["response"])
             },
             error: function(error) {
                 console.log(error);
@@ -38,14 +92,15 @@
     })
     $("#prev").click(function(){
 	    console.log("prev clicked");
-        var data = {submit:'Previous'};
+        var data = {submit:"Previous"};
         $.ajax({
-            url: $SCRIPT_ROOT + '/control',
+            url: $SCRIPT_ROOT + "/control",
             data: JSON.stringify(data),
-            type: 'POST',
-		    contentType:"application/json; charset=utf-8",
+            type: "POST",
+	          contentType:"application/json; charset=utf-8",
             success: function(response) {
-		        console.log(response.submit)
+		            console.log($.parseJSON(response)["response"])
+                $("#current_radio").text("On air: "+ $.parseJSON(response)["response"])
             },
             error: function(error) {
                 console.log(error);
@@ -54,14 +109,15 @@
     })
     $("#next").click(function(){
 	    console.log("next clicked");
-        var data = {submit:'Next'};
+        var data = {submit:"Next"};
         $.ajax({
-            url: $SCRIPT_ROOT + '/control',
+            url: $SCRIPT_ROOT + "/control",
             data: JSON.stringify(data),
-            type: 'POST',
-		    contentType:"application/json; charset=utf-8",
+            type: "POST",
+	          contentType:"application/json; charset=utf-8",
             success: function(response) {
-		        console.log(response.submit)
+		            console.log($.parseJSON(response)["response"])
+                $("#current_radio").text("On air: "+ $.parseJSON(response)["response"])
             },
             error: function(error) {
                 console.log(error);
@@ -70,14 +126,15 @@
     })
     $("#incr").click(function(){
 	    console.log("increase clicked");
-        var data = {submit:'Increase'};
+        var data = {submit:"Increase"};
         $.ajax({
-            url: $SCRIPT_ROOT + '/control',
+            url: $SCRIPT_ROOT + "/control",
             data: JSON.stringify(data),
-            type: 'POST',
-		    contentType:"application/json; charset=utf-8",
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
             success: function(response) {
-		        console.log(response.submit)
+		            console.log($.parseJSON(response)["response"])
+                $("#volume").text("Volume: " + $.parseJSON(response)["response"])
             },
             error: function(error) {
                 console.log(error);
@@ -86,14 +143,15 @@
     })
     $("#decr").click(function(){
 	    console.log("decrease clicked");
-        var data = {submit:'Decrease'};
+        var data = {submit:"Decrease"};
         $.ajax({
-            url: $SCRIPT_ROOT + '/control',
+            url: $SCRIPT_ROOT + "/control",
             data: JSON.stringify(data),
-            type: 'POST',
-		    contentType:"application/json; charset=utf-8",
+            type: "POST",
+	          contentType:"application/json; charset=utf-8",
             success: function(response) {
-		        console.log(response.submit)
+		            console.log($.parseJSON(response)["response"])
+                $("#volume").text("Volume: " + $.parseJSON(response)["response"])
             },
             error: function(error) {
                 console.log(error);

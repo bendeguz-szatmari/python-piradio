@@ -139,6 +139,14 @@ class StreamManager:
         print(vol)
         return vol
 
+    def get_volume(self):
+        card = Popen(['amixer', 'sget', 'Master'], stdout=PIPE)
+
+        out = card.communicate()[0]  ##  we only need the first element returned
+        vol = str(out).split('[')[1].split(']')[0]
+
+        return vol
+
 
 if __name__ == "__main__":
     sm = StreamManager()

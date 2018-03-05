@@ -58,6 +58,8 @@ class StreamManager:
                 self.__current_id = ( len(StreamManager.urls) - 1 )
         self.__current_stream = StreamManager.urls[self.__current_id]
         print(self.__current_stream.name)
+        if StreamManager.play == True:
+            self.play_stream()
 
     def play_stream(self):
         #Play the media
@@ -107,15 +109,14 @@ class StreamManager:
             self.__list_player.stop()
             while self.__list_player.is_playing() != 0:
                 sleep(1)
-            self.__list_media.release()
         else:
             print('stopping media')
             self.__player.stop()
             while self.__player.is_playing() != 0:
                 sleep(1)
-            self.__media.release()
         self.__list = False
-        self.thread.join()
+        if self.thread.is_alive() == True:
+            self.thread.join()
 
     def get_current_radio(self):
         return self.__current_stream.name

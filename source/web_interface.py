@@ -26,15 +26,11 @@ def radio_control():
             ret['response'] = sm.get_current_radio()
         if data['submit'] == 'Previous':
             print('previous')
-            sm.stop_stream()
             sm.select_stream(False)
-            sm.play_stream()
             ret['response'] = sm.get_current_radio()
         elif data['submit'] == 'Next':
             print('next')
-            sm.stop_stream()
             sm.select_stream()
-            sm.play_stream()
             ret['response'] = sm.get_current_radio()
         elif data['submit'] == 'Increase':
             print('increase volume')

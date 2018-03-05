@@ -1,20 +1,42 @@
 {% extends "layout.html" %}
 {% block body %}
-<h2>Radio stream control website</h2>
-<h3 id="current_radio">On air:</h3>
-<form method="post">
-    <input type="button" id="play" value="Play">
-    <input type="button" id="prev" value="Previous">
-    <input type="button" id="next" value="Next">
-    <input type="button" id="incr" value="Increase volume">
-    <input type="button" id="decr" value="Decrease volume">
-</form>
-<form method="post">
-    <input type="text" name="name" value="Radio">
-    <input type="text" name="url" value="URL">
-    <input type="button" name="submit" value="Add URL">
-</form>
-<h3 id="volume">Volume: 50%<h3>
+<div class="page-header">
+  <h1>Radio stream control website</h1>
+</div>
+<div class="well">
+    <div class="row">
+        <h3 id="current_radio">On air:</h3>
+    </div>
+    <div class="row">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" id="play">Play</button>
+          <button type="button" class="btn btn-primary" id="prev">Previous</button>
+          <button type="button" class="btn btn-primary" id="next">Next</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" id="incr">Increase volume</button>
+          <button type="button" class="btn btn-primary" id="decr">Decrease volume</button>
+        </div>
+    </div>
+    <div class="row">
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="name">Radio's name:</label>
+          <input type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+          <label for="url">URL:</label>
+          <input type="text" class="form-control" id="url">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+    <div class="row">
+      <h3 id="volume">Volume: 50%<h3>
+    </div>
+</div>
 <script>
     $(document).ready(function(){
         var data = {submit:"Status"}
@@ -27,9 +49,9 @@
               console.log($.parseJSON(response)["response"])
               var resp = $.parseJSON(response)["response"]
               if (resp == "False"){
-                  $("#play").val("Play")
+                  $("#play").text("Play")
               } else {
-                  $("#play").val("Stop")
+                  $("#play").text("Stop")
               }
               console.log($.parseJSON(response)["response2"])
               $("#current_radio").text("On air: "+ $.parseJSON(response)["response2"])
@@ -69,11 +91,11 @@
     });
     $("#play").click(function(){
 	console.log("play clicked");
-        if ($(this).val() == "Play") {
-            $(this).val("Stop")
+        if ($(this).text() == "Play") {
+            $(this).text("Stop")
             var data = {submit:"Play"};
         } else {
-            $(this).val("Play")
+            $(this).text("Play")
             var data = {submit:"Stop"};
         }
         $.ajax({

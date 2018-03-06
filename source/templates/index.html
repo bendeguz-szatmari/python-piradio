@@ -1,40 +1,32 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="page-header">
-  <h1>Radio stream control website</h1>
-</div>
-<div class="well">
-    <div class="row">
+<div class="container">
+    <div class="jumbotron align-items-center">
+        <div class="page-header">
+          <h1>Radio stream control website</h1>
+        </div>
         <h3 id="current_radio">On air:</h3>
-    </div>
-    <div class="row">
         <div class="btn-group">
           <button type="button" class="btn btn-primary" id="play">Play</button>
           <button type="button" class="btn btn-primary" id="prev">Previous</button>
           <button type="button" class="btn btn-primary" id="next">Next</button>
         </div>
-    </div>
-    <div class="row">
         <div class="btn-group">
           <button type="button" class="btn btn-primary" id="incr">Increase volume</button>
           <button type="button" class="btn btn-primary" id="decr">Decrease volume</button>
         </div>
-    </div>
-    <div class="row">
-      <form class="form-inline">
-        <div class="form-group">
-          <label for="name">Radio's name:</label>
-          <input type="text" class="form-control" id="name">
-        </div>
-        <div class="form-group">
-          <label for="url">URL:</label>
-          <input type="text" class="form-control" id="url">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-    </div>
-    <div class="row">
-      <h3 id="volume">Volume: 50%<h3>
+        <form class="form-inline">
+          <div class="form-group">
+            <label for="name">Radio's name:</label>
+            <input type="text" class="form-control" id="name">
+          </div>
+          <div class="form-group">
+            <label for="url">URL:</label>
+            <input type="text" class="form-control" id="url">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <h3 id="volume">Volume: 50%<h3>
     </div>
 </div>
 <script>

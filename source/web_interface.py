@@ -45,6 +45,10 @@ def radio_control():
         elif data['submit'] == 'Volume':
             print('get volume')
             ret['response'] = str(sm.get_volume())
+        elif data['submit'] == 'Add':
+            print('add new radio')
+            ret['response'] = sm.write_new_radio(data['name'], data['url'])
+            ret['response'] = sm.get_current_radio()
         else:
             print("unknown button pressed")
             pass # unknown
